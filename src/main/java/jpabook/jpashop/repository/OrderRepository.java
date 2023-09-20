@@ -21,6 +21,19 @@ public class OrderRepository {
         return em.find(Order.class, id);
     }
 
-//    public List<Order> findAll(OrderSearch orderSearch){}
+    public List<Order> findAll(OrderSearch orderSearch){
+
+        String jpql = "select o from Order o join o.member m";
+        boolean isFirstCondition = true;
+
+        // 주문상태 검색
+        if(orderSearch.getOrderStatus() != null){
+            if()
+        }
+
+        return em.createQuery(jpql, Order.class)
+                .setMaxResults(1000) // 최대 1000건
+                .getResultList();
+    }
 
 }
