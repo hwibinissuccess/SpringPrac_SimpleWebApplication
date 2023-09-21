@@ -1,9 +1,10 @@
 package jpabook.jpashop.repository;
 
-import antlr.StringUtils;
+
 import jpabook.jpashop.domain.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -25,27 +26,39 @@ public class OrderRepository {
         return em.find(Order.class, id);
     }
 
-//    public List<Order> findAll(OrderSearch orderSearch){
-//
-//        String jpql = "select o from Order o join o.member m";
+//    public List<Order> findAllByString(OrderSearch orderSearch) {
+//        //language=JPAQL
+//        String jpql = "select o From Order o join o.member m";
 //        boolean isFirstCondition = true;
-//
-//        // 주문상태 검색
-//        if(orderSearch.getOrderStatus() != null){
-//            if(isFirstCondition) {
-//                jpql += "where";
+//        //주문 상태 검색
+//        if (orderSearch.getOrderStatus() != null) {
+//            if (isFirstCondition) {
+//                jpql += " where";
 //                isFirstCondition = false;
 //            } else {
 //                jpql += " and";
 //            }
-//            jpql += "o.status = :status";
+//            jpql += " o.status = :status";
 //        }
-//
-//
-//
-//        return em.createQuery(jpql, Order.class)
-//                .setMaxResults(1000) // 최대 1000건
-//                .getResultList();
+//        //회원 이름 검색
+//        if (StringUtils.hasText(orderSearch.getMemberName())) {
+//            if (isFirstCondition) {
+//                jpql += " where";
+//                isFirstCondition = false;
+//            } else {
+//                jpql += " and";
+//            }
+//            jpql += " m.name like :name";
+//        }
+//        TypedQuery<Order> query = em.createQuery(jpql, Order.class)
+//                .setMaxResults(1000); //최대 1000건
+//        if (orderSearch.getOrderStatus() != null) {
+//            query = query.setParameter("status", orderSearch.getOrderStatus());
+//        }
+//        if (StringUtils.hasText(orderSearch.getMemberName())) {
+//            query = query.setParameter("name", orderSearch.getMemberName());
+//        }
+//        return query.getResultList();
 //    }
 
     public List<Order> findAllByCriteria(OrderSearch orderSearch){
