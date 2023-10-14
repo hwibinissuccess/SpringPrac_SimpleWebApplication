@@ -28,27 +28,41 @@ public class OrderSimpleApiController {
     public List<Order> orderV1() {
         List<Order> all = orderRepository.findAllByString(new OrderSearch());
 
-        for(Order order : all) {
+        for (Order order : all) {
             order.getMember().getName(); // Lazy 강제 초기화
             order.getDelivery().getAddress(); // Lazy 강제 초기화
         }
 
-        return  all;
+        return all;
     }
 
     @GetMapping("/api/v2/simple-orders")
-    public List<SimpleOrderDto> ordersV2(){
+    public List<SimpleOrderDto> ordersV2() {
 
         List<Order> orders = orderRepository.findAllByString(new OrderSearch());
         List<SimpleOrderDto> result = orders.stream().map(o -> new SimpleOrderDto(o))
                 .collect(Collectors.toList());
 
-        return  result;
+        return result;
+
+    }
+
+    @GetMapping("/api/v3/simple-orders")
+    public List<SimpleOrderDto> ordersV3() {
+
+        List<Order> orders = orderRepository.findAllWithMemberDelivery();
+
+        List<SimpleOrderDto> result = orders.stream()
+                .map(o -> new SimpleOrderDto(o))
+                .collect(Collectors.toList());
+
+        return result;
+
 
     }
 
     @Data
-    static class SimpleOrderDto{
+    static class SimpleOrderDto {
         private Long orderId;
         private String name;
         private LocalDateTime orderDate;
