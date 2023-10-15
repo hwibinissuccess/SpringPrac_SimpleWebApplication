@@ -15,6 +15,7 @@ import java.util.List;
 @Getter @Setter
 public abstract class Item {
 
+    //@BatchSize(size = 100)
     @Id
     @GeneratedValue
     @Column(name = "item_id")
